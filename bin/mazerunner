@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+let lab = require('../lib/maze');
+let m = require('../lib/monster');
+let player = require('../lib/player');
+let gun = require('../lib/gun');
+let gameMode = require('../lib/game_mode');
+let randomMaze = require('../lib/randomMaze');
+let keypress = require('keypress');
+let maze = {
+  length: 0,
+  width: 0
+};
+maze = gameMode.gameMode2(maze);
+let time = gameMode.gameMode();
+let arr = randomMaze.init(maze.length, maze.width);
+let win = false;
+
+m.monsters = m.generateMonsters(arr, m.monsters);
+gun.guns = gun.initgun();
+const key = () => {
+  process.stdin.setRawMode(true);
+  keypress(process.stdin);
+  process.stdin.resume();
+};
+
+process.stdin.on('keypress', function (ch, key) {
+  if (key) {
+    if (key.name === 'w') player.player = player.movePlayer('w', arr);
+    if (key.name === 's') player.player = player.movePlayer('s', arr);
+    if (key.name === 'a') player.player = player.movePlayer('a', arr);
+    if (key.name === 'd') player.player = player.movePlayer('d', arr);
+    if (key.name === 'space') gun.guns = gun.startgun(player.player, gun.guns);
+    if (key.name === 'q') process.exit(1);
+  }
+});
+
+const inc = () => {
+  console.clear();
+  win = m.win(m.monsters);
+  if (win) {
+    gameMode.win();
+  }
+
+  arr = lab.table(arr);
+  lab.writeTable(arr, m.monsters);
+  let bool = gameMode.gameOver(m.monsters);
+  if (bool === true) {
+    gameMode.printGameOver();
+  } else {
+    gun.guns = gun.destroyGunWall(gun.guns, arr);
+    m.monsters = m.moveMonsters(arr, m.monsters);
+    gun.guns = gun.move(gun.guns, arr);
+    arr = player.destroyPlayer(arr);
+    arr = m.destroyMonsters(arr);
+    arr = gun.destroygun(arr);
+  }
+};
+
+setInterval(inc, time);
+
+key();

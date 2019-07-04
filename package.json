@@ -1,0 +1,27 @@
+{
+  "name": "@flowacademy/epsilon-mazerunner",
+  "version": "0.0.1",
+  "description": "Classic arcade game: Mazerunner inspired by Wizard of Wor",
+  "main": "./bin/mazerunner",
+  "bin": {
+    "mazerunner": "./bin/mazerunner"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowacademyhu/epsilon-mazerunner.git"
+  },
+  "author": "Andor Hajnal, Dániel Simon - Flow Academy",
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/flowacademyhu/epsilon-mazerunner/issues"
+  },
+  "homepage": "https://github.com/flowacademyhu/epsilon-mazerunner#readme",
+  "dependencies": {
+    "axel": "0.0.3",
+    "keypress": "^0.2.1",
+    "readline-sync": "^1.4.9"
+  }
+}
